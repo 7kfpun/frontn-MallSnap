@@ -235,17 +235,19 @@ class App extends Component {
 
   renderWebcam() {
     return (
-      <div>
-        <Webcam
-          ref={(webcam) => {
-            this.webcam = webcam;
-          }}
-          height={300}
-          width={400}
-          audio={false}
-          screenshotFormat="image/png"
-        />
-        <div>
+      <Flex column>
+        <Box>
+          <Webcam
+            ref={(webcam) => {
+              this.webcam = webcam;
+            }}
+            height={300}
+            width={300}
+            audio={false}
+            screenshotFormat="image/jpeg"
+          />
+        </Box>
+        <Box>
           <FlatButton
             backgroundColor="#a4c639"
             hoverColor="#8AA62F"
@@ -253,9 +255,10 @@ class App extends Component {
             style={{ height: 70 }}
             onTouchTap={() => this.screenshot()}
           />
-        </div>
+        </Box>
+
         {/* this.state.screenshot ? <img alt="screenshot" src={this.state.screenshot} /> : null */}
-      </div>
+      </Flex>
     );
   }
 
@@ -331,7 +334,8 @@ class App extends Component {
               result: response.results[0].item.name,
               open: true,
             });
-          } else if (response.results && response.results.length == 0) {
+          } else if (response.results && response.results.length === 0) {
+            alert('No results');
           } else {
             alert(JSON.stringify(response));
           }
@@ -399,9 +403,9 @@ class App extends Component {
             <Box flexAuto><h2>AnySnap</h2></Box>
           </Flex>
 
-          {this.renderPickImage()}
-          {/* !this.hasGetUserMedia() && this.renderPickImage()}
-          {this.hasGetUserMedia() && this.renderWebcam() */}
+          {/* this.renderPickImage() */}
+          {!this.hasGetUserMedia() && this.renderPickImage()}
+          {this.hasGetUserMedia() && this.renderWebcam()}
 
           <Paper className="App-footer" zDepth={1}>
             <BottomNavigation selectedIndex={this.state.selectedIndex}>
