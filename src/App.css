@@ -1,0 +1,47 @@
+.App {
+  text-align: center;
+  min-height: 100%;
+}
+
+.App-logo {
+  animation: App-logo-spin infinite 20s linear;
+  height: 80px;
+}
+
+.App-header {
+  background-color: #26A69A;
+  height: 60px;
+  padding: 20px;
+  color: white;
+}
+
+.App-camera {
+  position: relative;
+  bottom: 10;
+  width: 100%;
+}
+
+.App-footer {
+  background-color: #26A69A;
+  color: white;
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+  overflow:hidden;
+}
+
+.App-intro {
+  min-height: 100%;
+}
+
+.image-wrapper {
+  max-width: 60vw;
+  height: auto;
+  width: auto;
+  max-height: 40vh;
+}
+
+@keyframes App-logo-spin {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
