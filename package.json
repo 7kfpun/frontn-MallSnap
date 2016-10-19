@@ -56,6 +56,7 @@
     "react-dom": "^15.3.2",
     "react-file-reader-input": "^1.1.0",
     "react-fileupload": "^2.4.0",
+    "react-measure": "^1.2.0",
     "react-tap-event-plugin": "^1.0.0",
     "react-webcam": "github:7kfpun/react-webcam",
     "reflexbox": "^2.2.2"

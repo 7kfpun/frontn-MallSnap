@@ -17,6 +17,7 @@ import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import Paper from 'material-ui/Paper';
 import Webcam from 'react-webcam';
 import WifiIcon from 'material-ui/svg-icons/device/network-wifi';
+import Measure from 'react-measure';
 
 import './App.css';
 import scanImage from './scan.png';
@@ -237,15 +238,22 @@ class App extends Component {
     return (
       <Flex column>
         <Box>
-          <Webcam
-            ref={(webcam) => {
-              this.webcam = webcam;
-            }}
-            height={300}
-            width={300}
-            audio={false}
-            screenshotFormat="image/jpeg"
-          />
+          <Measure>
+          { dimensions =>
+            <div>
+
+              <Webcam
+                ref={(webcam) => {
+                  this.webcam = webcam;
+                }}
+                height={window.innerHeight - 200}
+                width={dimensions.width}
+                audio={false}
+                screenshotFormat="image/jpeg"
+              />
+            </div>
+          }
+          </Measure>
         </Box>
         <Box>
           <FlatButton
