@@ -13,7 +13,7 @@
       work correctly both with client-side routing and a non-root public URL.
       Learn how to configure a non-root public URL by running `npm run build`.
     -->
-    <title>React App</title>
+    <title>AnySnap</title>
 
     <link rel="apple-touch-icon" sizes="57x57" href="/apple-icon-57x57.png">
     <link rel="apple-touch-icon" sizes="60x60" href="/apple-icon-60x60.png">
@@ -33,6 +33,20 @@
     <meta name="msapplication-TileImage" content="/ms-icon-144x144.png">
 
     <meta name="theme-color" content="#26A69A" />
+
+    <link rel="manifest" href="/manifest.json">
+    <script src="https://cdn.onesignal.com/sdks/OneSignalSDK.js" async></script>
+    <script>
+      var OneSignal = window.OneSignal || [];
+      OneSignal.push(["init", {
+        appId: "60b68094-2bdd-4e15-bfaa-a6039ecf9baf",
+        autoRegister: true,
+        notifyButton: {
+          enable: false /* Set to false to hide */
+        },
+        safari_web_id: 'web.onesignal.auto.1afe2633-50cf-455e-8f3e-a50d8cbe1d12'
+      }]);
+    </script>
   </head>
   <body>
     <div id="root"></div>
