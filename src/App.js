@@ -1,28 +1,32 @@
+// import FileReaderInput from 'react-file-reader-input';
 import React, { Component } from 'react';
-import { BottomNavigation, BottomNavigationItem } from 'material-ui/BottomNavigation';
+import { BottomNavigation } from 'material-ui/BottomNavigation';
+import { Card, CardHeader, CardMedia, CardTitle, CardText } from 'material-ui/Card';
 import { Flex, Box } from 'reflexbox'
-import { fullWhite } from 'material-ui/styles/colors';
+import { grey400 } from 'material-ui/styles/colors';
+import { List, ListItem } from 'material-ui/List';
 import { teal600 } from 'material-ui/styles/colors';
-import AppsIcon from 'material-ui/svg-icons/navigation/apps';
-import CameraIcon from 'material-ui/svg-icons/image/camera';
+import CameraAltIcon from 'material-ui/svg-icons/image/camera-alt';
 import ClearIcon from 'material-ui/svg-icons/content/clear';
 import Dialog from 'material-ui/Dialog';
+import Divider from 'material-ui/Divider';
 import DoneIcon from 'material-ui/svg-icons/action/done';
-// import FileReaderInput from 'react-file-reader-input';
+import Drawer from 'material-ui/Drawer';
 import FlatButton from 'material-ui/FlatButton';
 import getMuiTheme from 'material-ui/styles/getMuiTheme';
 import IconButton from 'material-ui/IconButton';
-import LinkedCameraIcon from 'material-ui/svg-icons/image/linked-camera';
+import LaunchIcon from 'material-ui/svg-icons/action/launch';
+import Measure from 'react-measure';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import Paper from 'material-ui/Paper';
+import SentimentSatisfiedIcon from 'material-ui/svg-icons/social/sentiment-satisfied';
+import Subheader from 'material-ui/Subheader';
 import Webcam from 'react-webcam';
-import WifiIcon from 'material-ui/svg-icons/device/network-wifi';
-import Measure from 'react-measure';
+
+import results from './results';
 
 import './App.css';
 import scanImage from './scan.png';
-
-import CouponCard from './CouponCard';
 
 const styles = {
   cameraIcon: {
@@ -48,6 +52,9 @@ class App extends Component {
       imagePreviewUrl: '',
       response: {},
       status: 'nothing',
+      drawerOpen: false,
+      result: 'casetify',
+      open: false,
     };
   }
 
@@ -57,11 +64,11 @@ class App extends Component {
   }
 
   handleOpen = () => {
-    this.setState({open: true});
+    this.setState({ open: true });
   };
 
   handleClose = () => {
-    this.setState({open: false});
+    this.setState({ open: false });
   };
 
   hasBasicSupport() {
@@ -71,7 +78,7 @@ class App extends Component {
         return !(!a.getContext || !a.getContext("2d"))
       },
       FormData: function() {
-        return "function" == typeof FormData || "object" == typeof FormData
+        return "function" === typeof FormData || "object" === typeof FormData
       },
       fileReader: function() {
         return window.File && window.FileReader && window.FileList && window.Blob
@@ -101,9 +108,9 @@ class App extends Component {
       xhr.open('post', 'https://search.craftar.net/v1/search', true);
 
       xhr.onload = function () {
-        if (this.status == 200) {
+        if (this.status === 200) {
           resolve(JSON.parse(this.response));
-        } else if (this.status == 400) {
+        } else if (this.status === 400) {
           resolve(JSON.parse(this.response));
         } else {
           reject(this.statusText);
@@ -223,7 +230,7 @@ class App extends Component {
     reader.onloadend = () => {
       this.setState({
         file: file,
-        imagePreviewUrl: reader.result
+        imagePreviewUrl: reader.result,
       });
     }
 
@@ -241,12 +248,11 @@ class App extends Component {
           <Measure>
           { dimensions =>
             <div>
-
               <Webcam
                 ref={(webcam) => {
                   this.webcam = webcam;
                 }}
-                height={window.innerHeight - 200}
+                height={window.innerHeight - 130}
                 width={dimensions.width}
                 audio={false}
                 screenshotFormat="image/jpeg"
@@ -257,9 +263,7 @@ class App extends Component {
         </Box>
         <Box>
           <FlatButton
-            backgroundColor="#a4c639"
-            hoverColor="#8AA62F"
-            icon={<CameraIcon color={fullWhite} style={styles.cameraIcon} />}
+            icon={<CameraAltIcon color={grey400} style={styles.cameraIcon} />}
             style={{ height: 70 }}
             onTouchTap={() => this.screenshot()}
           />
@@ -274,44 +278,38 @@ class App extends Component {
     let {imagePreviewUrl} = this.state;
     let $imagePreview = null;
     if (imagePreviewUrl) {
-      $imagePreview = (<img alt="preview" className="image-wrapper" src={imagePreviewUrl} />);
+      $imagePreview = (<img alt="preview" className="image-wrapper-preview" src={imagePreviewUrl} />);
     } else {
       $imagePreview = (<img alt="pick" className="image-wrapper" src={scanImage} />);
     }
 
     return (
       <div className="App-intro">
+        {$imagePreview}
         <Flex column>
-          <Box p={3}>
-            {$imagePreview}
-          </Box>
           <Box pt={1}>
-            <Flex px={2} align='center'>
-              <form onSubmit={(e)=>this._handleSubmit(e)} className="App-camera">
-                <Flex px={2} align='center'>
-                  <Box px={1} flexAuto>
-                    {this.state.imagePreviewUrl && <IconButton iconStyle={{ color: 'red' }} onClick={() => this.setState({ imagePreviewUrl: '' })}>
-                      <ClearIcon />
-                    </IconButton>}
-                  </Box>
-                  <Box px={1} flexAuto>
-                    <FlatButton
-                      backgroundColor="#a4c639"
-                      hoverColor="#8AA62F"
-                      icon={<CameraIcon color={fullWhite} style={styles.cameraIcon} />}
-                      style={{ height: 70 }}
-                      onTouchTap={() => this.refs.fileUploader.click()}
-                    />
-                  </Box>
-                  <Box px={1} flexAuto>
-                    {this.state.imagePreviewUrl && <IconButton iconStyle={{ color: 'green' }} type="submit" onClick={(e) => this._handleSubmit(e)}>
-                      <DoneIcon />
-                    </IconButton>}
-                  </Box>
-                  <input className="fileInput" hidden type="file" ref="fileUploader" accept="image/*" onChange={(e)=>this._handleImageChange(e)} />
-                </Flex>
-              </form>
-            </Flex>
+            <form onSubmit={(e)=>this._handleSubmit(e)} className="App-camera">
+              <Flex px={2} align='center'>
+                <Box px={1} flexAuto>
+                  {this.state.imagePreviewUrl && <IconButton iconStyle={{ color: 'red' }} onClick={() => this.setState({ imagePreviewUrl: '' })}>
+                    <ClearIcon />
+                  </IconButton>}
+                </Box>
+                <Box px={1} flexAuto>
+                  <FlatButton
+                    icon={<CameraAltIcon color={grey400} style={styles.cameraIcon} />}
+                    style={{ height: 70 }}
+                    onTouchTap={() => this.refs.fileUploader.click()}
+                  />
+                </Box>
+                <Box px={1} flexAuto>
+                  {this.state.imagePreviewUrl && <IconButton iconStyle={{ color: 'green' }} type="submit" onClick={(e) => this._handleSubmit(e)}>
+                    <DoneIcon />
+                  </IconButton>}
+                </Box>
+                <input className="fileInput" hidden type="file" ref="fileUploader" accept="image/*" onChange={(e)=>this._handleImageChange(e)} />
+              </Flex>
+            </form>
           </Box>
         </Flex>
 
@@ -390,61 +388,92 @@ class App extends Component {
   }
 
   render() {
-    const actions = [
-      <FlatButton
-        label="Cancel"
-        primary={true}
-        onTouchTap={this.handleClose}
-      />,
-      <FlatButton
-        label="Save it"
-        primary={true}
-        keyboardFocused={true}
-        onTouchTap={this.handleClose}
-      />,
-    ];
+    let actions = [];
+    if (this.state.result && results[this.state.result].action === 'link') {
+      actions = [
+        <FlatButton
+          label='取消'
+          primary={true}
+          onTouchTap={this.handleClose}
+        />,
+        <FlatButton
+          label={results[this.state.result].actionText}
+          primary={true}
+          onTouchTap={this.handleClose}
+          href={results[this.state.result].actionData}
+        />,
+      ];
+    } else if (this.state.result && results[this.state.result].action === 'save') {
+      actions = [
+        <FlatButton
+          label='取消'
+          primary={true}
+          onTouchTap={this.handleClose}
+        />,
+        <FlatButton
+          label={results[this.state.result].actionText}
+          primary={true}
+          onTouchTap={this.handleClose}
+          download
+          href={results[this.state.result].actionData}
+        />,
+      ];
+    }
 
     return (
       <MuiThemeProvider muiTheme={muiTheme}>
         <div className="App">
-          <Flex className="App-header" p={2} align='center'>
-            <Box flexAuto><h2>AnySnap</h2></Box>
-          </Flex>
+          <Dialog
+            actions={actions}
+            modal={false}
+            contentStyle={{
+              width: '100%',
+              maxWidth: 'none',
+            }}
+            onRequestClose={this.handleClose}
+            open={this.state.open}
+            autoScrollBodyContent={true}
+          >
+            <Card>
+              <CardMedia>
+                <img alt="card-media" src={results[this.state.result].image} />
+              </CardMedia>
+              <CardHeader
+                title={results[this.state.result].title}
+                subtitle={results[this.state.result].subtitle}
+                avatar={results[this.state.result].avatar}
+              />
+              <CardTitle title={results[this.state.result].couponTitle} subtitle={results[this.state.result].couponSubtitle} />
+              <CardText>
+                {results[this.state.result].body}
+              </CardText>
+            </Card>
+          </Dialog>
+
+          <Paper className="App-header" zDepth={1}>
+            <BottomNavigation selectedIndex={this.state.selectedIndex} style={{ backgroundColor: '#4DB6AC' }}>
+              <FlatButton style={{ color: 'white', marginTop: 10 }} label="使用步驟" onTouchTap={() => this.setState({ drawerOpen: !this.state.drawerOpen })} />
+              <h3 style={{ color: 'white' }}>Super Mall</h3>
+              <FlatButton style={{ color: 'white', marginTop: 10, fontSize: 6 }} label="關於 AnySnap" onTouchTap={this.handleOpen} />
+            </BottomNavigation>
+          </Paper>
 
           {/* this.renderPickImage() */}
           {!this.hasGetUserMedia() && this.renderPickImage()}
           {this.hasGetUserMedia() && this.renderWebcam()}
 
-          <Paper className="App-footer" zDepth={1}>
-            <BottomNavigation selectedIndex={this.state.selectedIndex}>
-              <BottomNavigationItem
-                label="Wifi connection"
-                icon={<WifiIcon />}
-                onTouchTap={() => alert(JSON.stringify(this.state.response))}
-              />
-              <BottomNavigationItem
-                label="Download App"
-                icon={<AppsIcon />}
-                onTouchTap={() => this.select(1)}
-              />
-              <BottomNavigationItem
-                label="AnySnap"
-                icon={<LinkedCameraIcon />}
-                onTouchTap={this.handleOpen}
-              />
-            </BottomNavigation>
-          </Paper>
-
-          <Dialog
-            actions={actions}
-            modal={false}
-            open={this.state.open}
-            onRequestClose={this.handleClose}
-            contentStyle={{ width: '100%', maxWidth: 'none' }}
-            autoScrollBodyContent={true}
-          >
-            <CouponCard result={this.state.result} />
-          </Dialog>
+          <Drawer open={this.state.drawerOpen} className="App-drawer" docked={false} onRequestChange={(drawerOpen) => this.setState({drawerOpen})}>
+            <List>
+              <Subheader>使用步驟</Subheader>
+              <ListItem primaryText="① 加入主畫面" rightIcon={<LaunchIcon />} disabled />
+              <ListItem primaryText="② 拍攝相關海報" rightIcon={<CameraAltIcon />} disabled />
+              <ListItem primaryText="③ 發現驚喜" rightIcon={<SentimentSatisfiedIcon />} disabled />
+            </List>
+            <Divider />
+            <List>
+              <ListItem primaryText="聯絡我們" />
+            </List>
+          </Drawer>
         </div>
       </MuiThemeProvider>
     );

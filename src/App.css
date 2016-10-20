@@ -10,14 +10,13 @@
 
 .App-header {
   background-color: #26A69A;
-  height: 60px;
-  padding: 20px;
+  height: 55px;
   color: white;
 }
 
 .App-camera {
-  position: relative;
-  bottom: 10;
+  position: absolute;
+  bottom: 0;
   width: 100%;
 }
 
@@ -34,11 +33,22 @@
   min-height: 100%;
 }
 
+.App-drawer {
+  text-align: left;
+}
+
 .image-wrapper {
-  max-width: 60vw;
+  max-width: 70vw;
   height: auto;
   width: auto;
-  max-height: 40vh;
+  max-height: 55;
+}
+
+.image-wrapper-preview {
+  max-width: 100%;
+  height: auto;
+  width: auto;
+  max-height: 100%;
 }
 
 @keyframes App-logo-spin {
