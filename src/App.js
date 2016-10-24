@@ -6,6 +6,7 @@ import { Flex, Box } from 'reflexbox'
 import { grey400 } from 'material-ui/styles/colors';
 import { List, ListItem } from 'material-ui/List';
 import { teal600 } from 'material-ui/styles/colors';
+import AppBar from 'material-ui/AppBar';
 import CameraAltIcon from 'material-ui/svg-icons/image/camera-alt';
 import ClearIcon from 'material-ui/svg-icons/content/clear';
 import Dialog from 'material-ui/Dialog';
@@ -24,6 +25,7 @@ import Paper from 'material-ui/Paper';
 import SentimentSatisfiedIcon from 'material-ui/svg-icons/social/sentiment-satisfied';
 import Subheader from 'material-ui/Subheader';
 import Webcam from 'react-webcam';
+import CloseIcon from 'material-ui/svg-icons/navigation/close';
 
 import results from './results';
 
@@ -32,6 +34,10 @@ import adsImage from './ads.jpg';
 import scanImage from './scan.png';
 
 const styles = {
+  title: {
+    cursor: 'pointer',
+    fontSize: 18,
+  },
   cameraIcon: {
     width: 48,
     height: 48,
@@ -488,9 +494,15 @@ class App extends Component {
               <Like href="http://www.facebook.com" colorScheme="dark" showFaces share width="256" />
             </FacebookProvider>
           </Drawer>
-          <Drawer width={500} className="Drawer" docked={false} openSecondary={true} open={this.state.secondDrawerOpen} onRequestChange={(secondDrawerOpen) => this.setState({secondDrawerOpen})}>
+          <Drawer width={300} className="Drawer" docked={false} openSecondary={true} open={this.state.secondDrawerOpen} onRequestChange={(secondDrawerOpen) => this.setState({secondDrawerOpen})}>
             {/* <Iframe url="https://www.facebook.com/plugins/page.php?href=https:%2F%2Fwww.facebook.com%2Fcoderexample&tabs=timeline%2Cmessages&width=340&height=500&small_header=false&adapt_container_width=true&hide_cover=false&show_facepile=true&appId=496223437090509" width={500} height={"100%"} /> */}
-            <Iframe url="https://webchat.botframework.com/embed/QNA?s=4khMcLPLx9Y.cwA.hXE.v1LoSKpLvL2uns4KVzUr5T5q3ywtnQfgfPAgzg3bcqw" width={500} height={"100%"} />
+            <AppBar
+              title={<span style={styles.title}>支援</span>}
+              // onTitleTouchTap={() => this.setState({ secondDrawerOpen: false })}
+              // iconElementLeft={<IconButton onTouchTap={() => this.setState({ secondDrawerOpen: false })}><CloseIcon /></IconButton>}
+              iconElementRight={<IconButton onTouchTap={() => this.setState({ secondDrawerOpen: false })}><CloseIcon /></IconButton>}
+            />
+            <Iframe url="https://webchat.botframework.com/embed/QNA?s=4khMcLPLx9Y.cwA.hXE.v1LoSKpLvL2uns4KVzUr5T5q3ywtnQfgfPAgzg3bcqw" width={300} height={"100%"} />
           </Drawer>
         </div>
       </MuiThemeProvider>
