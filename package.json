@@ -54,8 +54,10 @@
     "next-tick": "^1.0.0",
     "react": "^15.3.2",
     "react-dom": "^15.3.2",
+    "react-facebook": "^2.1.4",
     "react-file-reader-input": "^1.1.0",
     "react-fileupload": "^2.4.0",
+    "react-iframe": "0.0.4",
     "react-measure": "^1.2.0",
     "react-tap-event-plugin": "^1.0.0",
     "react-webcam": "github:7kfpun/react-webcam",
@@ -64,7 +66,8 @@
   "scripts": {
     "start": "node scripts/start.js",
     "build": "node scripts/build.js",
-    "test": "node scripts/test.js --env=jsdom"
+    "test": "node scripts/test.js --env=jsdom",
+    "deploy": "npm run build && firebase deploy"
   },
   "jest": {
     "moduleFileExtensions": [

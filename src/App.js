@@ -12,9 +12,11 @@ import Dialog from 'material-ui/Dialog';
 import Divider from 'material-ui/Divider';
 import DoneIcon from 'material-ui/svg-icons/action/done';
 import Drawer from 'material-ui/Drawer';
+import FacebookProvider, { Like } from 'react-facebook';
 import FlatButton from 'material-ui/FlatButton';
 import getMuiTheme from 'material-ui/styles/getMuiTheme';
 import IconButton from 'material-ui/IconButton';
+import Iframe from 'react-iframe';
 import LaunchIcon from 'material-ui/svg-icons/action/launch';
 import Measure from 'react-measure';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
@@ -54,6 +56,7 @@ class App extends Component {
       response: {},
       status: 'nothing',
       drawerOpen: false,
+      secondDrawerOpen: false,
       result: 'casetify',
       open: false,
     };
@@ -475,12 +478,19 @@ class App extends Component {
             <List>
               <ListItem primaryText="關於我們" />
               <ListItem primaryText="廣告查詢" />
-              <ListItem primaryText="支援" />
+              <ListItem primaryText="支援" onTouchTap={() => this.setState({ secondDrawerOpen: !this.state.secondDrawerOpen })} />
               <ListItem primaryText="免責聲明" />
               <ListItem primaryText="私隱條例" />
               <ListItem primaryText="聯絡我們" />
             </List>
             <Divider />
+            <FacebookProvider appID="1750551371873255">
+              <Like href="http://www.facebook.com" colorScheme="dark" showFaces share width="256" />
+            </FacebookProvider>
+          </Drawer>
+          <Drawer width={500} className="Drawer" docked={false} openSecondary={true} open={this.state.secondDrawerOpen} onRequestChange={(secondDrawerOpen) => this.setState({secondDrawerOpen})}>
+            {/* <Iframe url="https://www.facebook.com/plugins/page.php?href=https:%2F%2Fwww.facebook.com%2Fcoderexample&tabs=timeline%2Cmessages&width=340&height=500&small_header=false&adapt_container_width=true&hide_cover=false&show_facepile=true&appId=496223437090509" width={500} height={"100%"} /> */}
+            <Iframe url="https://webchat.botframework.com/embed/QNA?s=4khMcLPLx9Y.cwA.hXE.v1LoSKpLvL2uns4KVzUr5T5q3ywtnQfgfPAgzg3bcqw" width={500} height={"100%"} />
           </Drawer>
         </div>
       </MuiThemeProvider>
