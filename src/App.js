@@ -26,6 +26,7 @@ import Webcam from 'react-webcam';
 import results from './results';
 
 import './App.css';
+import adsImage from './ads.jpg';
 import scanImage from './scan.png';
 
 const styles = {
@@ -462,7 +463,8 @@ class App extends Component {
           {!this.hasGetUserMedia() && this.renderPickImage()}
           {this.hasGetUserMedia() && this.renderWebcam()}
 
-          <Drawer open={this.state.drawerOpen} className="App-drawer" docked={false} onRequestChange={(drawerOpen) => this.setState({drawerOpen})}>
+          <Drawer open={this.state.drawerOpen} className="Drawer" docked={false} onRequestChange={(drawerOpen) => this.setState({drawerOpen})}>
+            <img alt="ads" style={{ width: 256 }} src={adsImage} />
             <List>
               <Subheader>使用步驟</Subheader>
               <ListItem primaryText="① 加入主畫面" rightIcon={<LaunchIcon />} disabled />
@@ -471,8 +473,14 @@ class App extends Component {
             </List>
             <Divider />
             <List>
+              <ListItem primaryText="關於我們" />
+              <ListItem primaryText="廣告查詢" />
+              <ListItem primaryText="支援" />
+              <ListItem primaryText="免責聲明" />
+              <ListItem primaryText="私隱條例" />
               <ListItem primaryText="聯絡我們" />
             </List>
+            <Divider />
           </Drawer>
         </div>
       </MuiThemeProvider>

@@ -33,8 +33,16 @@
   min-height: 100%;
 }
 
-.App-drawer {
+.Drawer {
   text-align: left;
+}
+
+.Drawer-footer {
+  color: white;
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+  overflow:hidden;
 }
 
 .image-wrapper {
